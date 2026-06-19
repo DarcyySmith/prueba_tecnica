@@ -10,11 +10,12 @@ import { CreditRequest, RequestStatus } from '../../core/models/credit-request.m
 import { StatusBadgeComponent } from '../../shared/components/status-badge/status-badge.component';
 import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
 import { ErrorAlertComponent } from '../../shared/components/error-alert/error-alert.component';
+import { DetailGridComponent, DetailItem } from '../../shared/components/detail-grid/detail-grid.component';
 
 @Component({
   selector: 'app-credit-request-detail',
   standalone: true,
-  imports: [IonSpinner, IonButton, IonIcon, IonItem, IonLabel, IonTextarea, CommonModule, ReactiveFormsModule, StatusBadgeComponent, LoadingSpinnerComponent, ErrorAlertComponent],
+  imports: [IonSpinner, IonButton, IonIcon, IonItem, IonLabel, IonTextarea, CommonModule, ReactiveFormsModule, StatusBadgeComponent, LoadingSpinnerComponent, ErrorAlertComponent, DetailGridComponent],
   templateUrl: './credit-request-detail.component.html',
   styleUrls: ['./credit-request-detail.component.scss']
 })
@@ -84,11 +85,22 @@ export class CreditRequestDetailComponent implements OnInit {
     this.router.navigate(['/requests']);
   }
 
-  statusColor(status: RequestStatus): string {
-    const map: Record<RequestStatus, string> = {
-      PENDING: 'warning', APPROVED: 'success', REJECTED: 'danger'
-    };
-    return map[status];
+  get detailItems(): DetailItem[] {
+    if (!this.request) return [];
+    const r = this.request;
+    const items: DetailItem[] = [
+      { label: 'Monto', value: `$${r.amount.toLocaleString('en-US')}`, wide: true },
+      { label: 'Plazo', value: `${r.termMonths} meses` },
+      { label: 'Solicitante', value: r.applicantId },
+      { label: 'Creado', value: new Date(r.createdAt).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }), light: true }
+    ];
+    if (r.updatedAt) {
+      items.push({ label: 'Actualizado', value: new Date(r.updatedAt).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }), light: true });
+    }
+    if (r.comment) {
+      items.push({ label: 'Comentario', value: r.comment, wide: true });
+    }
+    return items;
   }
 
   statusLabel(status: RequestStatus): string {

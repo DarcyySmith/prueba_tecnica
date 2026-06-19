@@ -14,32 +14,7 @@
       <app-status-badge [status]="request.status" [label]="statusLabel(request.status)"></app-status-badge>
     </div>
 
-    <div class="detail-grid">
-      <div class="detail-grid-wide">
-        <p class="detail-label">Monto</p>
-        <p class="detail-amount">{{ request.amount | currency:'USD':'symbol':'1.0-0' }}</p>
-      </div>
-      <div class="detail-item">
-        <p class="detail-label">Plazo</p>
-        <p class="detail-value">{{ request.termMonths }} meses</p>
-      </div>
-      <div class="detail-item">
-        <p class="detail-label">Solicitante</p>
-        <p class="detail-value">{{ request.applicantId }}</p>
-      </div>
-      <div class="detail-item">
-        <p class="detail-label">Creado</p>
-        <p class="detail-value light">{{ request.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
-      </div>
-      <div class="detail-item" *ngIf="request.updatedAt">
-        <p class="detail-label">Actualizado</p>
-        <p class="detail-value light">{{ request.updatedAt | date:'dd/MM/yyyy HH:mm' }}</p>
-      </div>
-      <div class="detail-grid-wide" *ngIf="request.comment">
-        <p class="detail-label">Comentario</p>
-        <p class="detail-comment">{{ request.comment }}</p>
-      </div>
-    </div>
+    <app-detail-grid [items]="detailItems"></app-detail-grid>
 
     <div *ngIf="request.status === 'PENDING'"
          class="actions-section">
