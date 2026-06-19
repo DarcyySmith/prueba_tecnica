@@ -1,8 +1,6 @@
 <div class="detail-page">
 
-  <div *ngIf="loading" class="loading-state">
-    <ion-spinner name="crescent" class="loading-spinner"></ion-spinner>
-  </div>
+  <app-loading-spinner *ngIf="loading"></app-loading-spinner>
 
   <div *ngIf="!loading && request" class="detail-card">
 
@@ -13,14 +11,7 @@
         <ion-icon name="arrow-back-outline" class="back-icon"></ion-icon>
       </button>
       <h2 class="detail-title">Solicitud #{{ request.id }}</h2>
-      <span class="detail-status"
-        [ngClass]="{
-          'pending': request.status === 'PENDING',
-          'approved': request.status === 'APPROVED',
-          'rejected': request.status === 'REJECTED'
-        }">
-        {{ statusLabel(request.status) }}
-      </span>
+      <app-status-badge [status]="request.status" [label]="statusLabel(request.status)"></app-status-badge>
     </div>
 
     <div class="detail-grid">
@@ -66,10 +57,7 @@
         </textarea>
       </form>
 
-      <div *ngIf="errorMessage" class="error-alert">
-        <ion-icon name="alert-circle-outline" class="error-alert-icon"></ion-icon>
-        {{ errorMessage }}
-      </div>
+      <app-error-alert *ngIf="errorMessage" [message]="errorMessage"></app-error-alert>
 
       <div class="action-buttons">
         <button

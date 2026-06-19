@@ -1,17 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonBadge, IonSpinner, IonSelect, IonSelectOption, IonButton, IonIcon } from '@ionic/angular/standalone';
+import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonSpinner, IonSelect, IonSelectOption, IonButton, IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { documentOutline, chevronBackOutline, chevronForwardOutline, personOutline, calendarOutline, timeOutline } from 'ionicons/icons';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CreditRequestService } from '../../core/services/credit-request.service';
 import { CreditRequest, RequestStatus } from '../../core/models/credit-request.model';
+import { StatusBadgeComponent } from '../../shared/components/status-badge/status-badge.component';
+import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
+import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
 
 @Component({
   selector: 'app-credit-request-list',
   standalone: true,
-  imports: [IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonBadge, IonSpinner, IonSelect, IonSelectOption, IonButton, IonIcon, CommonModule, FormsModule],
+  imports: [IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonSpinner, IonSelect, IonSelectOption, IonButton, IonIcon, CommonModule, FormsModule, StatusBadgeComponent, LoadingSpinnerComponent, EmptyStateComponent],
   templateUrl: './credit-request-list.component.html',
   styleUrls: ['./credit-request-list.component.scss']
 })

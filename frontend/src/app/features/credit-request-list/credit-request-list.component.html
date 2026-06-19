@@ -10,15 +10,12 @@
     </select>
   </div>
 
-  <div *ngIf="loading" class="loading-state">
-    <ion-spinner name="crescent" class="loading-spinner"></ion-spinner>
-  </div>
+  <app-loading-spinner *ngIf="loading"></app-loading-spinner>
 
-  <div *ngIf="!loading && requests.length === 0"
-       class="empty-state">
-    <ion-icon name="document-outline" class="empty-icon"></ion-icon>
-    <p class="empty-text">No hay solicitudes para mostrar</p>
-  </div>
+  <app-empty-state
+    *ngIf="!loading && requests.length === 0"
+    message="No hay solicitudes para mostrar">
+  </app-empty-state>
 
   <div *ngIf="!loading && requests.length > 0"
        class="requests-grid">
@@ -29,14 +26,7 @@
 
       <div class="request-card-header">
         <span class="request-id">#{{ req.id }}</span>
-        <span class="request-status"
-          [ngClass]="{
-            'pending': req.status === 'PENDING',
-            'approved': req.status === 'APPROVED',
-            'rejected': req.status === 'REJECTED'
-          }">
-          {{ statusLabel(req.status) }}
-        </span>
+        <app-status-badge [status]="req.status" [label]="statusLabel(req.status)"></app-status-badge>
       </div>
 
       <p class="request-amount">
