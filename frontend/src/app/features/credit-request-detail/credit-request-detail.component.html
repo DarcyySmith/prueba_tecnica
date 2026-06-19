@@ -1,91 +1,99 @@
-<div class="detail-container">
+<div class="min-h-screen bg-gray-50 flex items-start justify-center px-4 py-10">
 
-  <div class="loading-spinner" *ngIf="loading">
-    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  <div *ngIf="loading" class="flex justify-center py-20 w-full">
+    <ion-spinner name="crescent" class="text-blue-600 w-10 h-10"></ion-spinner>
   </div>
 
-  <div class="detail-card" *ngIf="!loading && request">
-    <div class="detail-header">
-      <ion-button fill="clear" size="small" (click)="goBack()">
-        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-      </ion-button>
-      <div class="header-info">
-        <h2>Solicitud #{{ request.id }}</h2>
-        <ion-badge [color]="statusColor(request.status)">
-          {{ statusLabel(request.status) }}
-        </ion-badge>
+  <div *ngIf="!loading && request"
+       class="bg-white rounded-2xl shadow-sm border border-gray-100 w-full max-w-xl p-8">
+
+    <div class="flex items-center gap-3 mb-6">
+      <button
+        (click)="goBack()"
+        class="p-2 rounded-lg hover:bg-gray-100 transition text-gray-500">
+        <ion-icon name="arrow-back-outline" class="text-xl"></ion-icon>
+      </button>
+      <h2 class="text-xl font-bold text-blue-950 flex-1">Solicitud #{{ request.id }}</h2>
+      <span class="text-xs font-semibold px-3 py-1 rounded-full"
+        [ngClass]="{
+          'bg-yellow-100 text-yellow-700': request.status === 'PENDING',
+          'bg-green-100 text-green-700':  request.status === 'APPROVED',
+          'bg-red-100 text-red-700':      request.status === 'REJECTED'
+        }">
+        {{ statusLabel(request.status) }}
+      </span>
+    </div>
+
+    <div class="grid grid-cols-2 gap-5 mb-6">
+      <div class="col-span-2">
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">Monto</p>
+        <p class="text-3xl font-bold text-blue-700">{{ request.amount | currency:'USD':'symbol':'1.0-0' }}</p>
+      </div>
+      <div>
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">Plazo</p>
+        <p class="text-base font-semibold text-gray-800">{{ request.termMonths }} meses</p>
+      </div>
+      <div>
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">Solicitante</p>
+        <p class="text-base font-semibold text-gray-800">{{ request.applicantId }}</p>
+      </div>
+      <div>
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">Creado</p>
+        <p class="text-sm text-gray-600">{{ request.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+      </div>
+      <div *ngIf="request.updatedAt">
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">Actualizado</p>
+        <p class="text-sm text-gray-600">{{ request.updatedAt | date:'dd/MM/yyyy HH:mm' }}</p>
+      </div>
+      <div *ngIf="request.comment" class="col-span-2">
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">Comentario</p>
+        <p class="text-sm text-gray-700 bg-gray-50 rounded-lg px-4 py-3">{{ request.comment }}</p>
       </div>
     </div>
 
-    <div class="info-grid">
-      <div class="info-item">
-        <span class="info-label">Monto</span>
-        <span class="info-value amount">{{ request.amount | currency:'USD':'symbol':'1.0-0' }}</span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">Plazo</span>
-        <span class="info-value">{{ request.termMonths }} meses</span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">Solicitante</span>
-        <span class="info-value">{{ request.applicantId }}</span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">Fecha de creación</span>
-        <span class="info-value">{{ request.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
-      </div>
-      <div class="info-item" *ngIf="request.updatedAt">
-        <span class="info-label">Última actualización</span>
-        <span class="info-value">{{ request.updatedAt | date:'dd/MM/yyyy HH:mm' }}</span>
-      </div>
-      <div class="info-item full-width" *ngIf="request.comment">
-        <span class="info-label">Comentario</span>
-        <span class="info-value">{{ request.comment }}</span>
-      </div>
-    </div>
+    <div *ngIf="request.status === 'PENDING'"
+         class="border-t border-gray-100 pt-6">
+      <h3 class="text-sm font-semibold text-gray-600 mb-4">Actualizar estado</h3>
 
-    <div class="actions-section" *ngIf="request.status === 'PENDING'">
-      <h3>Actualizar estado</h3>
-
-      <form [formGroup]="commentForm">
-      <ion-item class="comment-item">
-        <ion-label position="floating">Comentario (requerido para rechazo)</ion-label>
-        <ion-textarea
+      <form [formGroup]="commentForm" class="mb-4">
+        <label class="block text-sm font-semibold text-gray-700 mb-1">
+          Comentario <span class="text-gray-400 font-normal">(requerido para rechazar)</span>
+        </label>
+        <textarea
           formControlName="comment"
           rows="3"
-          placeholder="Agrega un comentario...">
-        </ion-textarea>
-      </ion-item>
+          placeholder="Agrega un comentario..."
+          class="w-full px-4 py-3 rounded-lg border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none">
+        </textarea>
       </form>
 
-      <div class="error-alert" *ngIf="errorMessage">
-        <ion-icon name="alert-circle-outline"></ion-icon>
+      <div *ngIf="errorMessage"
+           class="flex items-center gap-2 bg-red-50 text-red-700 px-4 py-3 rounded-lg text-sm mb-4">
+        <ion-icon name="alert-circle-outline" class="flex-shrink-0"></ion-icon>
         {{ errorMessage }}
       </div>
 
-      <div class="action-buttons">
-        <ion-button
-          expand="block"
-          color="success"
+      <div class="grid grid-cols-2 gap-3">
+        <button
           (click)="approve()"
-          [disabled]="updating">
-          <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+          [disabled]="updating"
+          class="flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 disabled:opacity-60 text-white font-semibold py-3 rounded-lg transition">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
           Aprobar
-        </ion-button>
-        <ion-button
-          expand="block"
-          color="danger"
-          fill="outline"
+        </button>
+        <button
           (click)="reject()"
-          [disabled]="updating">
-          <ion-icon slot="start" name="close-circle-outline"></ion-icon>
+          [disabled]="updating"
+          class="flex items-center justify-center gap-2 border-2 border-red-500 text-red-600 hover:bg-red-50 disabled:opacity-60 font-semibold py-3 rounded-lg transition">
+          <ion-icon name="close-circle-outline"></ion-icon>
           Rechazar
-        </ion-button>
+        </button>
       </div>
 
-      <div class="updating-spinner" *ngIf="updating">
-        <ion-spinner name="dots" color="primary"></ion-spinner>
+      <div *ngIf="updating" class="flex justify-center mt-4">
+        <ion-spinner name="dots" class="text-blue-600"></ion-spinner>
       </div>
     </div>
+
   </div>
 </div>
