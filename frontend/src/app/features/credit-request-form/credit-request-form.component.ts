@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonItem, IonLabel, IonInput, IonButton, IonSpinner, IonIcon } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { arrowBackOutline, alertCircleOutline } from 'ionicons/icons';
 import { CommonModule } from '@angular/common';
 import { CreditRequestService } from '../../core/services/credit-request.service';
 
 @Component({
   selector: 'app-credit-request-form',
   standalone: true,
-  imports: [IonicModule, ReactiveFormsModule, CommonModule],
+  imports: [IonItem, IonLabel, IonInput, IonButton, IonSpinner, IonIcon, ReactiveFormsModule, CommonModule],
   templateUrl: './credit-request-form.component.html',
   styleUrls: ['./credit-request-form.component.scss']
 })
@@ -23,6 +25,7 @@ export class CreditRequestFormComponent {
     private service: CreditRequestService,
     private router: Router
   ) {
+    addIcons({ arrowBackOutline, alertCircleOutline });
     this.form = this.fb.group({
       amount: [null, [Validators.required, Validators.min(500), Validators.max(50000)]],
       termMonths: [null, [Validators.required, Validators.min(6), Validators.max(60)]],
