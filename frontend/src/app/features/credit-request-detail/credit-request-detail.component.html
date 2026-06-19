@@ -34,26 +34,12 @@
 
       <app-error-alert *ngIf="errorMessage" [message]="errorMessage"></app-error-alert>
 
-      <div class="action-buttons">
-        <button
-          (click)="approve()"
-          [disabled]="updating"
-          class="approve-btn">
-          <ion-icon name="checkmark-circle-outline"></ion-icon>
-          Aprobar
-        </button>
-        <button
-          (click)="reject()"
-          [disabled]="updating"
-          class="reject-btn">
-          <ion-icon name="close-circle-outline"></ion-icon>
-          Rechazar
-        </button>
-      </div>
-
-      <div *ngIf="updating" class="updating-state">
-        <ion-spinner name="dots" class="updating-spinner"></ion-spinner>
-      </div>
+      <app-request-actions
+        [disabled]="updating"
+        [loading]="updating"
+        (approve)="approve()"
+        (reject)="reject()">
+      </app-request-actions>
     </div>
 
   </div>

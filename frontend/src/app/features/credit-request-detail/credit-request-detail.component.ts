@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { IonSpinner, IonButton, IonIcon, IonItem, IonLabel, IonTextarea } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { arrowBackOutline, checkmarkCircleOutline, closeCircleOutline } from 'ionicons/icons';
+import { arrowBackOutline } from 'ionicons/icons';
 import { CommonModule } from '@angular/common';
 import { CreditRequestService } from '../../core/services/credit-request.service';
 import { CreditRequest, RequestStatus } from '../../core/models/credit-request.model';
@@ -11,11 +11,12 @@ import { StatusBadgeComponent } from '../../shared/components/status-badge/statu
 import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
 import { ErrorAlertComponent } from '../../shared/components/error-alert/error-alert.component';
 import { DetailGridComponent, DetailItem } from '../../shared/components/detail-grid/detail-grid.component';
+import { RequestActionsComponent } from '../../shared/components/request-actions/request-actions.component';
 
 @Component({
   selector: 'app-credit-request-detail',
   standalone: true,
-  imports: [IonSpinner, IonButton, IonIcon, IonItem, IonLabel, IonTextarea, CommonModule, ReactiveFormsModule, StatusBadgeComponent, LoadingSpinnerComponent, ErrorAlertComponent, DetailGridComponent],
+  imports: [IonSpinner, IonButton, IonIcon, IonItem, IonLabel, IonTextarea, CommonModule, ReactiveFormsModule, StatusBadgeComponent, LoadingSpinnerComponent, ErrorAlertComponent, DetailGridComponent, RequestActionsComponent],
   templateUrl: './credit-request-detail.component.html',
   styleUrls: ['./credit-request-detail.component.scss']
 })
@@ -33,7 +34,7 @@ export class CreditRequestDetailComponent implements OnInit {
     private service: CreditRequestService,
     private fb: FormBuilder
   ) {
-    addIcons({ arrowBackOutline, checkmarkCircleOutline, closeCircleOutline });
+    addIcons({ arrowBackOutline });
     this.commentForm = this.fb.group({
       comment: ['']
     });
