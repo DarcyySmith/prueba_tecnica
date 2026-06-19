@@ -1,0 +1,51 @@
+<ion-content class="login-content">
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <ion-icon name="card-outline" class="login-icon"></ion-icon>
+        <h1>Credit Manager</h1>
+        <p>Ingresa tus credenciales para continuar</p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <ion-item class="form-item">
+          <ion-label position="floating">Usuario</ion-label>
+          <ion-input
+            formControlName="username"
+            type="text"
+            autocomplete="username">
+          </ion-input>
+        </ion-item>
+        <div class="error-text" *ngIf="form.get('username')?.touched && form.get('username')?.invalid">
+          El usuario es requerido
+        </div>
+
+        <ion-item class="form-item">
+          <ion-label position="floating">Contraseña</ion-label>
+          <ion-input
+            formControlName="password"
+            type="password"
+            autocomplete="current-password">
+          </ion-input>
+        </ion-item>
+        <div class="error-text" *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
+          La contraseña es requerida
+        </div>
+
+        <div class="error-alert" *ngIf="errorMessage">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          {{ errorMessage }}
+        </div>
+
+        <ion-button
+          expand="block"
+          type="submit"
+          class="login-btn"
+          [disabled]="loading">
+          <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+          <span *ngIf="!loading">Iniciar sesión</span>
+        </ion-button>
+      </form>
+    </div>
+  </div>
+</ion-content>
