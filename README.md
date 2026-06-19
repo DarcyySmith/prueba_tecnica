@@ -1,6 +1,6 @@
 # Credit Request App
 
-Aplicación fullstack para gestión de solicitudes de crédito, construida con Spring Boot (backend) y Angular + Ionic (frontend).
+Prueba tecnica de BlueCore, construida con Spring Boot (backend) y Angular + Ionic (frontend).
 
 ## Requisitos
 
@@ -45,7 +45,7 @@ La aplicación queda disponible en:
 
 | Usuario | Contraseña |
 |---------|-----------|
-| admin   | admin123  |
+| admin   | admin  |
 
 ## Endpoints principales
 
