@@ -1,74 +1,64 @@
-<div class="min-h-screen bg-gray-50 flex items-start justify-center px-4 py-10">
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 w-full max-w-lg p-8">
+<div class="form-page">
+  <div class="form-card">
 
-    <div class="flex items-center gap-3 mb-7">
+    <div class="form-header">
       <button
         (click)="goBack()"
-        class="p-2 rounded-lg hover:bg-gray-100 transition text-gray-500">
-        <ion-icon name="arrow-back-outline" class="text-xl"></ion-icon>
+        class="back-btn">
+        <ion-icon name="arrow-back-outline" class="back-icon"></ion-icon>
       </button>
-      <h2 class="text-xl font-bold text-blue-950">Nueva solicitud de crédito</h2>
+      <h2 class="form-title">Nueva solicitud de crédito</h2>
     </div>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-body">
 
-      <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-1">
-          Monto solicitado (USD)
-        </label>
+      <div class="field-group">
+        <label class="field-label">Monto solicitado (USD)</label>
         <input
           formControlName="amount"
           type="number"
           placeholder="500 – 50,000"
-          class="w-full px-4 py-3 rounded-lg border text-sm transition focus:outline-none focus:ring-2 focus:ring-blue-500"
-          [ngClass]="hasError('amount','required')||hasError('amount','min')||hasError('amount','max')
-            ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-gray-50'" />
-        <p class="text-red-500 text-xs mt-1" *ngIf="hasError('amount','required')">El monto es requerido</p>
-        <p class="text-red-500 text-xs mt-1" *ngIf="hasError('amount','min')">El monto mínimo es $500</p>
-        <p class="text-red-500 text-xs mt-1" *ngIf="hasError('amount','max')">El monto máximo es $50,000</p>
+          class="field-input"
+          [ngClass]="hasError('amount','required')||hasError('amount','min')||hasError('amount','max') ? 'invalid' : ''" />
+        <p class="field-error" *ngIf="hasError('amount','required')">El monto es requerido</p>
+        <p class="field-error" *ngIf="hasError('amount','min')">El monto mínimo es $500</p>
+        <p class="field-error" *ngIf="hasError('amount','max')">El monto máximo es $50,000</p>
       </div>
 
-      <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-1">
-          Plazo (meses)
-        </label>
+      <div class="field-group">
+        <label class="field-label">Plazo (meses)</label>
         <input
           formControlName="termMonths"
           type="number"
           placeholder="6 – 60"
-          class="w-full px-4 py-3 rounded-lg border text-sm transition focus:outline-none focus:ring-2 focus:ring-blue-500"
-          [ngClass]="hasError('termMonths','required')||hasError('termMonths','min')||hasError('termMonths','max')
-            ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-gray-50'" />
-        <p class="text-red-500 text-xs mt-1" *ngIf="hasError('termMonths','required')">El plazo es requerido</p>
-        <p class="text-red-500 text-xs mt-1" *ngIf="hasError('termMonths','min')">Mínimo 6 meses</p>
-        <p class="text-red-500 text-xs mt-1" *ngIf="hasError('termMonths','max')">Máximo 60 meses</p>
+          class="field-input"
+          [ngClass]="hasError('termMonths','required')||hasError('termMonths','min')||hasError('termMonths','max') ? 'invalid' : ''" />
+        <p class="field-error" *ngIf="hasError('termMonths','required')">El plazo es requerido</p>
+        <p class="field-error" *ngIf="hasError('termMonths','min')">Mínimo 6 meses</p>
+        <p class="field-error" *ngIf="hasError('termMonths','max')">Máximo 60 meses</p>
       </div>
 
-      <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-1">
-          ID del solicitante
-        </label>
+      <div class="field-group">
+        <label class="field-label">ID del solicitante</label>
         <input
           formControlName="applicantId"
           type="text"
           placeholder="Identificación del solicitante"
-          class="w-full px-4 py-3 rounded-lg border text-sm transition focus:outline-none focus:ring-2 focus:ring-blue-500"
-          [ngClass]="hasError('applicantId','required')||hasError('applicantId','minlength')
-            ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-gray-50'" />
-        <p class="text-red-500 text-xs mt-1" *ngIf="hasError('applicantId','required')">El ID es requerido</p>
-        <p class="text-red-500 text-xs mt-1" *ngIf="hasError('applicantId','minlength')">Mínimo 5 caracteres</p>
+          class="field-input"
+          [ngClass]="hasError('applicantId','required')||hasError('applicantId','minlength') ? 'invalid' : ''" />
+        <p class="field-error" *ngIf="hasError('applicantId','required')">El ID es requerido</p>
+        <p class="field-error" *ngIf="hasError('applicantId','minlength')">Mínimo 5 caracteres</p>
       </div>
 
-      <div *ngIf="errorMessage"
-           class="flex items-center gap-2 bg-red-50 text-red-700 px-4 py-3 rounded-lg text-sm">
-        <ion-icon name="alert-circle-outline" class="flex-shrink-0"></ion-icon>
+      <div *ngIf="errorMessage" class="error-alert">
+        <ion-icon name="alert-circle-outline" class="error-alert-icon"></ion-icon>
         {{ errorMessage }}
       </div>
 
       <button
         type="submit"
         [disabled]="loading"
-        class="w-full bg-blue-700 hover:bg-blue-800 disabled:opacity-60 text-white font-semibold py-3 rounded-lg transition flex items-center justify-center gap-2">
+        class="submit-btn">
         <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
         <span *ngIf="!loading">Crear solicitud</span>
       </button>

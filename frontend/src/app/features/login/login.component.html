@@ -1,52 +1,51 @@
-<div class="min-h-screen bg-gradient-to-br from-blue-950 to-blue-800 flex items-center justify-center p-6">
-  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-10">
+<div class="login-page">
+  <div class="login-card">
 
-    <div class="text-center mb-8">
-      <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-50 mb-4">
-        <ion-icon name="card-outline" class="text-4xl text-blue-700"></ion-icon>
+    <div class="login-header">
+      <div class="login-icon-wrapper">
+        <ion-icon name="card-outline" class="login-icon"></ion-icon>
       </div>
-      <h1 class="text-2xl font-bold text-blue-950">Credit Manager</h1>
-      <p class="text-sm text-gray-500 mt-1">Ingresa tus credenciales para continuar</p>
+      <h1 class="login-title">Credit Manager</h1>
+      <p class="login-subtitle">Ingresa tus credenciales para continuar</p>
     </div>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login-form">
 
-      <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-1">Usuario</label>
+      <div class="field-group">
+        <label class="field-label">Usuario</label>
         <input
           formControlName="username"
           type="text"
           placeholder="admin"
-          class="w-full px-4 py-3 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-sm" />
-        <p class="text-red-500 text-xs mt-1"
+          class="field-input" />
+        <p class="field-error"
            *ngIf="form.get('username')?.touched && form.get('username')?.invalid">
           El usuario es requerido
         </p>
       </div>
 
-      <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-1">Contraseña</label>
+      <div class="field-group">
+        <label class="field-label">Contraseña</label>
         <input
           formControlName="password"
           type="password"
           placeholder="••••••••"
-          class="w-full px-4 py-3 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-sm" />
-        <p class="text-red-500 text-xs mt-1"
+          class="field-input" />
+        <p class="field-error"
            *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
           La contraseña es requerida
         </p>
       </div>
 
-      <div *ngIf="errorMessage"
-           class="flex items-center gap-2 bg-red-50 text-red-700 px-4 py-3 rounded-lg text-sm">
-        <ion-icon name="alert-circle-outline" class="text-lg flex-shrink-0"></ion-icon>
+      <div *ngIf="errorMessage" class="error-alert">
+        <ion-icon name="alert-circle-outline" class="error-alert-icon"></ion-icon>
         {{ errorMessage }}
       </div>
 
       <button
         type="submit"
         [disabled]="loading"
-        class="w-full bg-blue-700 hover:bg-blue-800 disabled:opacity-60 text-white font-semibold py-3 rounded-lg transition flex items-center justify-center gap-2">
+        class="submit-btn">
         <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
         <span *ngIf="!loading">Iniciar sesión</span>
       </button>

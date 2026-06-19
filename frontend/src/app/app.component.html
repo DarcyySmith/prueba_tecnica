@@ -1,29 +1,25 @@
-<div class="min-h-screen bg-gray-50 flex flex-col">
+<div class="app-shell">
 
-  <nav *ngIf="authService.isAuthenticated()"
-       class="bg-blue-900 text-white shadow-lg">
-    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <ion-icon name="card-outline" class="text-2xl text-blue-300"></ion-icon>
-        <span class="text-lg font-bold tracking-tight">Credit Manager</span>
+  <nav *ngIf="authService.isAuthenticated()" class="app-navbar">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <ion-icon name="card-outline" class="brand-icon"></ion-icon>
+        <span class="brand-text">Credit Manager</span>
       </div>
-      <div class="flex items-center gap-2">
-        <a routerLink="/requests/new"
-           class="flex items-center gap-1 bg-blue-700 hover:bg-blue-600 px-4 py-2 rounded-lg text-sm font-semibold transition">
-          <ion-icon name="add-outline" class="text-base"></ion-icon>
+      <div class="navbar-actions">
+        <a routerLink="/requests/new" class="nav-btn-primary">
+          <ion-icon name="add-outline" class="nav-icon"></ion-icon>
           Nueva solicitud
         </a>
-        <button
-          (click)="logout()"
-          class="flex items-center gap-1 hover:bg-blue-800 px-3 py-2 rounded-lg text-sm transition text-blue-200">
-          <ion-icon name="log-out-outline" class="text-base"></ion-icon>
+        <button (click)="logout()" class="nav-btn-text">
+          <ion-icon name="log-out-outline" class="nav-icon"></ion-icon>
           Salir
         </button>
       </div>
     </div>
   </nav>
 
-  <main class="flex-1">
+  <main class="app-main">
     <router-outlet />
   </main>
 
