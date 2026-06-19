@@ -1,0 +1,91 @@
+<div class="detail-container">
+
+  <div class="loading-spinner" *ngIf="loading">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </div>
+
+  <div class="detail-card" *ngIf="!loading && request">
+    <div class="detail-header">
+      <ion-button fill="clear" size="small" (click)="goBack()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+      <div class="header-info">
+        <h2>Solicitud #{{ request.id }}</h2>
+        <ion-badge [color]="statusColor(request.status)">
+          {{ statusLabel(request.status) }}
+        </ion-badge>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="info-label">Monto</span>
+        <span class="info-value amount">{{ request.amount | currency:'USD':'symbol':'1.0-0' }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Plazo</span>
+        <span class="info-value">{{ request.termMonths }} meses</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Solicitante</span>
+        <span class="info-value">{{ request.applicantId }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Fecha de creación</span>
+        <span class="info-value">{{ request.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+      <div class="info-item" *ngIf="request.updatedAt">
+        <span class="info-label">Última actualización</span>
+        <span class="info-value">{{ request.updatedAt | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+      <div class="info-item full-width" *ngIf="request.comment">
+        <span class="info-label">Comentario</span>
+        <span class="info-value">{{ request.comment }}</span>
+      </div>
+    </div>
+
+    <div class="actions-section" *ngIf="request.status === 'PENDING'">
+      <h3>Actualizar estado</h3>
+
+      <form [formGroup]="commentForm">
+      <ion-item class="comment-item">
+        <ion-label position="floating">Comentario (requerido para rechazo)</ion-label>
+        <ion-textarea
+          formControlName="comment"
+          rows="3"
+          placeholder="Agrega un comentario...">
+        </ion-textarea>
+      </ion-item>
+      </form>
+
+      <div class="error-alert" *ngIf="errorMessage">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        {{ errorMessage }}
+      </div>
+
+      <div class="action-buttons">
+        <ion-button
+          expand="block"
+          color="success"
+          (click)="approve()"
+          [disabled]="updating">
+          <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+          Aprobar
+        </ion-button>
+        <ion-button
+          expand="block"
+          color="danger"
+          fill="outline"
+          (click)="reject()"
+          [disabled]="updating">
+          <ion-icon slot="start" name="close-circle-outline"></ion-icon>
+          Rechazar
+        </ion-button>
+      </div>
+
+      <div class="updating-spinner" *ngIf="updating">
+        <ion-spinner name="dots" color="primary"></ion-spinner>
+      </div>
+    </div>
+  </div>
+</div>

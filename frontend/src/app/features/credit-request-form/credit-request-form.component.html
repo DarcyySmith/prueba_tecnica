@@ -1,0 +1,65 @@
+<div class="form-container">
+  <div class="form-card">
+    <div class="form-header">
+      <ion-button fill="clear" size="small" (click)="goBack()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+      <h2>Nueva solicitud</h2>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <div class="field-group">
+        <label>Monto solicitado (USD)</label>
+        <ion-item class="form-item" [class.invalid]="hasError('amount', 'required') || hasError('amount', 'min') || hasError('amount', 'max')">
+          <ion-input
+            formControlName="amount"
+            type="number"
+            placeholder="500 - 50,000">
+          </ion-input>
+        </ion-item>
+        <div class="error-text" *ngIf="hasError('amount', 'required')">El monto es requerido</div>
+        <div class="error-text" *ngIf="hasError('amount', 'min')">El monto mínimo es $500</div>
+        <div class="error-text" *ngIf="hasError('amount', 'max')">El monto máximo es $50,000</div>
+      </div>
+
+      <div class="field-group">
+        <label>Plazo (meses)</label>
+        <ion-item class="form-item" [class.invalid]="hasError('termMonths', 'required') || hasError('termMonths', 'min') || hasError('termMonths', 'max')">
+          <ion-input
+            formControlName="termMonths"
+            type="number"
+            placeholder="6 - 60">
+          </ion-input>
+        </ion-item>
+        <div class="error-text" *ngIf="hasError('termMonths', 'required')">El plazo es requerido</div>
+        <div class="error-text" *ngIf="hasError('termMonths', 'min')">El plazo mínimo es 6 meses</div>
+        <div class="error-text" *ngIf="hasError('termMonths', 'max')">El plazo máximo es 60 meses</div>
+      </div>
+
+      <div class="field-group">
+        <label>ID del solicitante</label>
+        <ion-item class="form-item" [class.invalid]="hasError('applicantId', 'required') || hasError('applicantId', 'minlength')">
+          <ion-input
+            formControlName="applicantId"
+            type="text"
+            placeholder="Identificación del solicitante">
+          </ion-input>
+        </ion-item>
+        <div class="error-text" *ngIf="hasError('applicantId', 'required')">El ID es requerido</div>
+        <div class="error-text" *ngIf="hasError('applicantId', 'minlength')">Mínimo 5 caracteres</div>
+      </div>
+
+      <div class="error-alert" *ngIf="errorMessage">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        {{ errorMessage }}
+      </div>
+
+      <ion-button expand="block" type="submit" class="submit-btn" [disabled]="loading">
+        <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+        <span *ngIf="!loading">Crear solicitud</span>
+      </ion-button>
+
+    </form>
+  </div>
+</div>
